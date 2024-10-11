@@ -13,12 +13,11 @@ public class ConsultaPelicula {
         HttpClient client = HttpClient.newHttpClient();
         HttpRequest request = HttpRequest.newBuilder().uri(direccion).build();
 
-        HttpResponse<String> response = null;
         try {
-            response = client.send(request, HttpResponse.BodyHandlers.ofString());
-        } catch (IOException | InterruptedException e) {
-            throw new RuntimeException(e);
+            HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+            return new Gson().fromJson(response.body(), Pelicula.class);
+        } catch (Exception e) {
+            throw new RuntimeException("No encontre esa pelicula.");
         }
-        return new Gson().fromJson(response.body(), Pelicula.class);
     }
 }
